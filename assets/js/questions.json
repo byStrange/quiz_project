@@ -1,0 +1,84 @@
+{
+  "questions": [
+    {
+      "question": "Систолическое АД или время капиллярного наполнения",
+      "options": [
+        {
+          "id": "01",
+          "name": "option 1",
+          "point": 1
+        },
+        {
+          "name": "option 2",
+          "id": "02",
+          "point": 2
+        },
+        {
+          "id": "03",
+          "name": "option 3",
+          "point": 3
+        }
+      ]
+    },
+    {
+      "question": "Систолическое АД или время капиллярного наполнения",
+      "options": [
+        {
+          "id": "01",
+          "name": "option 1",
+          "point": 1
+        },
+        {
+          "name": "option 2",
+          "id": "02",
+          "point": 2
+        },
+        {
+          "id": "03",
+          "name": "option 3",
+          "point": 3
+        }
+      ]
+    },
+    {
+      "question": "Систолическое АД или время капиллярного наполнения",
+      "options": [
+        {
+          "id": "01",
+          "name": "option 1",
+          "point": 1
+        },
+        {
+          "name": "option 2",
+          "id": "02",
+          "point": 2
+        },
+        {
+          "id": "03",
+          "name": "option 3",
+          "point": 3
+        }
+      ]
+    },
+    {
+      "question": "Систолическое АД или время капиллярного наполнения",
+      "options": [
+        {
+          "id": "01",
+          "name": "option 1",
+          "point": 1
+        },
+        {
+          "name": "option 2",
+          "id": "02",
+          "point": 2
+        },
+        {
+          "id": "03",
+          "name": "option 3",
+          "point": 3
+        }
+      ]
+    }
+  ]
+}
