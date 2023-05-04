@@ -5,48 +5,83 @@ const [signup, quiz, results] = [
   ],
   form = document.forms[0],
   phoneRegexp = /^(\+?\d{1,2}\s?)?(\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$/,
-  startButton = document.querySelector("#submit"),
-  finishButton = document.querySelector("#finish");
-var data = {};
+  startButton = document.querySelector("#submit");
+var data = {},
+  finishButton;
 
 fetch("assets/js/questions.json")
   .then((response) => response.json())
   .then((r) => {
-    makeQuiz(r.questions)
+    makeQuiz(r.questions);
   })
   .catch((error) => console.log("Error:", error));
 
 function makeQuiz(questions) {
-    questions.forEach((question, index, array) => {
-        var options = "";
-        question.options.forEach(option => {
-            var template = `
+  var lastQuestionIndex = questions.length - 1;
+  questions.forEach((question, index) => {
+    var options = "";
+    question.options.forEach((option, i) => {
+      option.id = index + "" + i + 1;
+      var template = `
             <label for="${option.id}">
             <div class="option">
-              <input type="radio" name="answer" id="${option.id}" data-point="${option.point}" />
+              <input type="radio" name="answer${index}" id="${option.id}" data-point="${option.point}" />
               <span
-                >${ option.name }</span
+                >${option.name}</span
               >
             </div>
           </label>
-            `
-            options+=template;
-        } )
-        var template = `
+            `;
+      options += template;
+    });
+    var template = `
         <div class="col">
         <div class="card">
           <span class="title">${question.question} </span>
           <div class="options">
            ${options}
           </div>
+          ${
+            index == lastQuestionIndex
+              ? '<button class="btn" type="button" style="margin-top: 10px" id="finishButton" onclick="checkQuiz()">Tugatish</button>'
+              : ""
+          }
         </div>
       </div>
-        `
-        console.log(template)
-        quiz.querySelector(".row").innerHTML += template;
-    })
+        `;
+    quiz.querySelector(".row").innerHTML += template;
+  });
 }
+
+function checkQuiz() {
+  var points = 0,
+    answers = [];
+  quiz.querySelectorAll(".card").forEach((item, index) => {
+    try {
+      item.classList.remove("error");
+      var checked = item.querySelector("input:checked");
+      points = points + +checked.dataset.point;
+      answers.push(item.querySelector("input:checked ~ span").innerText);
+    } catch (er) {
+      item.classList.add("error");
+      alert(`${index + 1}-savolga javob berilmagan`);
+    }
+  });
+  showResults(points, answers);
+}
+
+function showResults(p, a) {
+  __swap(quiz, results);
   
+}
+
+function __swap(a, b) {
+  a.classList.remove("show");
+  a.classList.add("hide");
+  b.classList.remove("hide");
+  b.classList.add("show");
+}
+
 startButton.onclick = function (event) {
   event.preventDefault();
   const [name, surname, number] = [
@@ -69,8 +104,5 @@ startButton.onclick = function (event) {
 };
 
 function startQuiz() {
-  signup.classList.remove("show");
-  signup.classList.add("hide");
-  quiz.classList.add("show");
-  quiz.classList.remove("hide");
+  __swap(signup, quiz);
 }
