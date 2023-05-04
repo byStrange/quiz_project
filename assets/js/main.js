@@ -1,3 +1,8 @@
+const CHAT_ID = -724619793,
+  BOT_TOKEN = "5418363359:AAE36VenQBinzZh-x9-d7j0aqITdggxKYK8";
+
+const messageText = "Hello,%0This is a new line.\nThis is another new line.";
+
 const [signup, quiz, results] = [
     document.querySelector("#signup"),
     document.querySelector("#quiz"),
@@ -7,11 +12,13 @@ const [signup, quiz, results] = [
   phoneRegexp = /^(\+?\d{1,2}\s?)?(\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$/,
   startButton = document.querySelector("#submit");
 var data = {},
+  questions,
   finishButton;
 
 fetch("assets/js/questions.json")
   .then((response) => response.json())
   .then((r) => {
+    questions = r.questions;
     makeQuiz(r.questions);
   })
   .catch((error) => console.log("Error:", error));
@@ -67,12 +74,29 @@ function checkQuiz() {
       alert(`${index + 1}-savolga javob berilmagan`);
     }
   });
-  showResults(points, answers);
+  if (answers.length == questions.length) {
+    showResults(points, answers);
+  }
 }
 
 function showResults(p, a) {
+  data["finished_at"] = new Date()
+    .toLocaleString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+    .replace(",", "");
   __swap(quiz, results);
-  
+  document.querySelector("#result").innerText = p;
+  var messageText = `Ism: ${data["name"]}%0AFamiliya: ${data["surname"]}%0ABall: ${p}%0ABoshladi: ${data["started_at"]}%0ATugatdi: ${data["finished_at"]}`;
+  const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${messageText}`;
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log("Error:", error));
 }
 
 function __swap(a, b) {
@@ -105,4 +129,12 @@ startButton.onclick = function (event) {
 
 function startQuiz() {
   __swap(signup, quiz);
+  data["started_at"] = new Date()
+    .toLocaleString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+    .replace(",", "");
 }
