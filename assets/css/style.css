@@ -57,7 +57,7 @@ form {
   padding: 15px;
   border-radius: 8px;
   border: 1px solid rgba(24, 83, 171, 0.499);
-  box-shadow: 0 0 20px 0px rgba(59, 119, 198, 0.05  )
+  box-shadow: 0 0 20px 0px rgba(59, 119, 198, 0.05);
 }
 .card .title {
   font-size: 25px;
