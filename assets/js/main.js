@@ -65,7 +65,7 @@ function makeQuiz(questions) {
     var template = `
         <div class="col">
         <div class="card">
-          <span class="title">${question.question} </span>
+          <span class="title">${index + 1}. ${question.question} </span>
           <div class="options">
            ${options}
           </div>
@@ -110,8 +110,18 @@ function showResults(p, a) {
     })
     .replace(",", "");
   __swap(quiz, results);
+  var status;
+  if (p < 6) {
+    status = "нетяжелая травма";
+  } else if (p >= 7 && p <= 12) {
+    status = "тяжелая травма";
+  } else if (p >= 13) {
+    status = "крайне тяжелая травма";
+  }
+  data["status"] = status;
   document.querySelector("#result").innerText = p;
-  var messageText = `Ism: ${data["name"]}%0AFamiliya: ${data["surname"]}%0ABall: ${p}%0ABoshladi: ${data["started_at"]}%0ATugatdi: ${data["finished_at"]}`;
+  document.querySelector("#status").innerText = status;
+  var messageText = `Ism: ${data["name"]}%0AFamiliya: ${data["surname"]}%0ABall: ${p}%0ABoshladi: ${data["started_at"]}%0ATugatdi: ${data["finished_at"]}%0AStatus: ${data["status"]}z`;
   const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${messageText}`;
 
   fetch(apiUrl)
