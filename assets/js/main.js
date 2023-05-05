@@ -10,15 +10,36 @@ const [signup, quiz, results] = [
   ],
   form = document.forms[0],
   phoneRegexp = /^(\+?\d{1,2}\s?)?(\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$/,
-  startButton = document.querySelector("#submit");
+  startButton = document.querySelector("#submit"),
+  shuffleQuestions = true;
 var data = {},
   questions,
   finishButton;
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    if (arr[i].options) {
+      for (let k = arr[i].options.length - 1; k > 0; k--) {
+        const l = Math.floor(Math.random() * (k + 1));
+        [arr[i].options[k], arr[i].options[l]] = [
+          arr[i].options[l],
+          arr[i].options[k],
+        ];
+      }
+    }
+  }
+  return arr;
+}
 
 fetch("assets/js/questions.json")
   .then((response) => response.json())
   .then((r) => {
     questions = r.questions;
+    if (shuffleQuestions) {
+      console.log(shuffleArray(r.questions));
+    }
     makeQuiz(r.questions);
   })
   .catch((error) => console.log("Error:", error));
