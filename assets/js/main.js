@@ -11,7 +11,7 @@ const [signup, quiz, results] = [
   form = document.forms[0],
   phoneRegexp = /^(\+?\d{1,2}\s?)?(\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$/,
   startButton = document.querySelector("#submit"),
-  shuffleQuestions = true;
+  shuffleQuestions = false;
 var data = {},
   questions,
   finishButton;
@@ -71,7 +71,7 @@ function makeQuiz(questions) {
           </div>
           ${
             index == lastQuestionIndex
-              ? '<button class="btn" type="button" style="margin-top: 10px" id="finishButton" onclick="checkQuiz()">Tugatish</button>'
+              ? '<button class="btn" type="button" style="margin-top: 10px" id="finishButton" onclick="checkQuiz()">Закончить</button>'
               : ""
           }
         </div>
@@ -111,7 +111,7 @@ function showResults(p, a) {
     .replace(",", "");
   __swap(quiz, results);
   var status;
-  if (p < 6) {
+  if (p <= 6) {
     status = "нетяжелая травма";
   } else if (p >= 7 && p <= 12) {
     status = "тяжелая травма";
